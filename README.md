@@ -166,5 +166,5 @@ remote-backend
 s3-bucket
 ```
 
-This consolidated README provides clear instructions for setting up the infrastructure using Terraform, syncing code from GitHub to S3, configuring IAM policies, and performing cleanup.    
-Feel free to copy and paste this content into your README.md file for your GitHub repository.
+ 
+
