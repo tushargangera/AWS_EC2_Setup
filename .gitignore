@@ -30,3 +30,13 @@
 
 # Ignore license files
 **/LICENSE.txt
+
+# Ignore .pem files and other sensitive data
+*.pem
+*.key
+*.crt
+*.cer
+*.pfx
+*.p12
+*.jks
+*.keystore

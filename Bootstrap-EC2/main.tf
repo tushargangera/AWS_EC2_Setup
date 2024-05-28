@@ -87,6 +87,23 @@ resource "aws_security_group" "bootstrapped_security_group" {
   }
 }
 
+# creating a private key
+resource "tls_private_key" "ssh_key" {
+  algorithm = "RSA"
+  rsa_bits  = 2048
+}
+
+# creating a random id generator
+resource "random_id" "key_suffix" {
+  byte_length = 4
+}
+
+# register public key with AWS
+resource "aws_key_pair" "generated_key_public" {
+  key_name   = "terraform-key-${random_id.key_suffix.hex}"
+  public_key = tls_private_key.ssh_key.public_key_openssh
+}
+
 resource "aws_instance" "bootstrapped_instance" {
   ami           = "ami-02bf8ce06a8ed6092"
   instance_type = "t2.micro"
@@ -120,6 +137,15 @@ resource "aws_instance" "bootstrapped_instance" {
   }
 }
 
+
+output "private_key" {
+  value     = tls_private_key.ssh_key.private_key_pem
+  sensitive = true
+}
+
+output "instance_ip" {
+  value = aws_instance.bootstrapped_instance.public_ip
+}
 
 output "name" {
   value = "!!!Bootstrapped EC2 instance with necessary libraries!!!"
